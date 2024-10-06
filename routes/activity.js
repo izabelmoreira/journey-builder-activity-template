@@ -100,7 +100,7 @@ exports.save = function (req, res) {
 
 exports.execute = function (req, res) {
   console.log('5 -- For Execute');
-  var requestBody = req.body.inArguments[0];
+  var requestBody = req.body;
   console.log('Request Body' + JSON.stringify(requestBody));
   res.send(200, 'Publish');
   // Used to decode JWT
