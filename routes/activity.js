@@ -85,6 +85,7 @@ exports.execute = function (req, decodedArgs) {
       var decodedArgs = decoded.inArguments[0];
 
       // logData(req);
+      //eu fiz a correção aqui
       console.log('Requisição: ', decodedArgs);
       res.send(200, 'Execute');
     } else {
