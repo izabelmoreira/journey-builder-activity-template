@@ -93,7 +93,7 @@ define(['postmonger'], function (Postmonger) {
     console.log('Def' + eventDefinitionKey);
     payload['arguments'].execute.inArguments = [
       {
-        ContactKey: '{{Event' + eventDefinitionKey + '.ContactKey"}}',
+        ContactKey: '{{Event.' + eventDefinitionKey + '."ContactKey"}}',
       },
     ];
   }
