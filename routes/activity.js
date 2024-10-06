@@ -71,9 +71,9 @@ exports.save = function (req, res) {
 /*
  * POST Handler for /execute/ route of Activity.
  */
-exports.execute = function (req, res) {
+exports.execute = function (req, decodedArgs) {
   // example on how to decode JWT
-  JWT(req.body, process.env.jwtSecret, (err, decoded) => {
+  JWT(req.body, process.env.jwtSecret, (err, res) => {
     // verification error -> unauthorized request
     if (err) {
       console.error(err);
@@ -85,7 +85,7 @@ exports.execute = function (req, res) {
       var decodedArgs = decoded.inArguments[0];
 
       // logData(req);
-      console.log('Requisição: ', req);
+      console.log('Requisição: ', decodedArgs);
       res.send(200, 'Execute');
     } else {
       console.error('inArguments invalid.');
