@@ -15,7 +15,15 @@
   },
   "arguments": {
     "execute": {
-      "inArguments": [],
+      "inArguments": [
+        {
+          "ContactKey": {
+            "dataType": "String",
+            "isNullable": true,
+            "direction": "out"
+          }
+        }
+      ],
       "outArguments": [],
       "url": "https://new-custom-activity-4d3da86ba78c.herokuapp.com/journeybuilder/execute",
       "verb": "POST",
