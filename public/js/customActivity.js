@@ -90,27 +90,11 @@ define(['postmonger'], function (Postmonger) {
   }
 
   function save() {
-    var postcardURLValue = $('#postcard-url').val();
-    var postcardTextValue = $('#postcard-text').val();
-
+    console.log('Def' + eventDefinitionKey);
     payload['arguments'].execute.inArguments = [
       {
-        tokens: authTokens,
+        ContactKey: '{{Event' + eventDefinitionKey + '.ContactKey"}}',
       },
     ];
-
-    payload['metaData'].isConfigured = true;
-
-    console.log(payload);
-    connection.trigger('updateActivity', payload);
   }
 });
-
-function save() {
-  console.log('Def' + eventDefinitionKey);
-  payload['arguments'].execute.inArguments = [
-    {
-      ContactKey: '{{Event' + eventDefinitionKey + '.ContactKey"}}',
-    },
-  ];
-}
