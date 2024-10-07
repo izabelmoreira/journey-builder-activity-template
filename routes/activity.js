@@ -52,8 +52,6 @@ function logData(req) {
  * POST Handler for / route of Activity (this is the edit route).
  */
 exports.edit = function (req, res) {
-  // Data from the req and put it in an array accessible to the main app.
-  //console.log( req.body );
   logData(req);
   res.send(200, 'Edit');
 };
@@ -62,8 +60,6 @@ exports.edit = function (req, res) {
  * POST Handler for /save/ route of Activity.
  */
 exports.save = function (req, res) {
-  // Data from the req and put it in an array accessible to the main app.
-  //console.log( req.body );
   logData(req);
   res.send(200, 'Save');
 };
@@ -73,7 +69,8 @@ exports.save = function (req, res) {
  */
 exports.execute = function (req, res) {
   // example on how to decode JWT
-  JWT(req.body, process.env.jwtSecret, (err, res) => {
+  JWT(req.body, process.env.jwtSecret, (err, decoded) => {
+    // Renomeado de 'res' para 'decoded'
     // verification error -> unauthorized request
     if (err) {
       console.error(err);
@@ -83,8 +80,6 @@ exports.execute = function (req, res) {
     if (decoded && decoded.inArguments && decoded.inArguments.length > 0) {
       // decoded in arguments
       var decodedArgs = decoded.inArguments[0];
-
-      // logData(req);
 
       console.log('Requisição: ', decodedArgs);
       res.send(200, 'Execute');
@@ -99,8 +94,6 @@ exports.execute = function (req, res) {
  * POST Handler for /publish/ route of Activity.
  */
 exports.publish = function (req, res) {
-  // Data from the req and put it in an array accessible to the main app.
-  //console.log( req.body );
   logData(req);
   res.send(200, 'Publish');
 };
@@ -109,8 +102,6 @@ exports.publish = function (req, res) {
  * POST Handler for /validate/ route of Activity.
  */
 exports.validate = function (req, res) {
-  // Data from the req and put it in an array accessible to the main app.
-  //console.log( req.body );
   logData(req);
   res.send(200, 'Validate');
 };
