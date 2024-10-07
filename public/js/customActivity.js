@@ -8,14 +8,11 @@ define(['postmonger'], function (Postmonger) {
   $(window).ready(onRender);
 
   connection.on('initActivity', initialize);
-
   connection.on('requestedTokens', onGetTokens);
   connection.on('requestedEndpoints', onGetEndpoints);
   connection.on('requestedInteraction', function (settings) {
     eventDefinitionKey = settings.triggers[0].metaData.eventDefinitionKey;
-    console.log(
-      'Initializing data data: ' + JSON.stringify(eventDefinitionKey)
-    );
+    console.log('Initializing data: ' + JSON.stringify(eventDefinitionKey));
   });
   connection.on(
     'requestedTriggerEventDefinition',
@@ -25,9 +22,7 @@ define(['postmonger'], function (Postmonger) {
   connection.on('clickedNext', save);
 
   function onRender() {
-    // JB will respond the first time 'ready' is called with 'initActivity'
     connection.trigger('ready');
-
     connection.trigger('requestTokens');
     connection.trigger('requestEndpoints');
     connection.trigger('requestInteraction');
@@ -89,12 +84,24 @@ define(['postmonger'], function (Postmonger) {
     console.log(endpoints);
   }
 
+  // Função para salvar a atividade com os dados corretos
   function save() {
-    console.log('Def' + eventDefinitionKey);
+    console.log(
+      'Saving activity with Event Definition Key: ' + eventDefinitionKey
+    );
+
+    // Atualizando o payload com os argumentos necessários para a execução
     payload['arguments'].execute.inArguments = [
       {
-        ContactKey: '{{Event.' + eventDefinitionKey + '."ContactKey"}}',
+        ContactKey: '{{Event.' + eventDefinitionKey + '.ContactKey}}',
       },
     ];
+
+    payload['metaData'].isConfigured = true; // Define que a atividade foi configurada
+
+    console.log('Payload being saved:', JSON.stringify(payload));
+
+    // Disparar o evento para salvar a atividade
+    connection.trigger('updateActivity', payload);
   }
 });
