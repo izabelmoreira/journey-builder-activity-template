@@ -5,6 +5,8 @@ define(['postmonger'], function (Postmonger) {
   var eventDefinitionKey;
   var authTokens = {};
   var payload = {};
+  var contactKey = '';
+
   $(window).ready(onRender);
 
   connection.on('initActivity', initialize);
@@ -85,10 +87,22 @@ define(['postmonger'], function (Postmonger) {
       'Saving activity with Event Definition Key: ' + eventDefinitionKey
     );
 
-    // Atualizando o payload com os argumentos necessários para a execução
+    // Captura os valores do select de país e idioma
+    var selectedCountry = $('#country').val();
+    var selectedLanguage = $('#language').val();
+
+    // Verifica se os valores estão preenchidos
+    if (!selectedCountry || !selectedLanguage) {
+      alert('Por favor, selecione um país e um idioma antes de continuar.');
+      return;
+    }
+
+    // Atualiza o payload com o ContactKey e os valores de país e idioma
     payload['arguments'].execute.inArguments = [
       {
         ContactKey: '{{Event.' + eventDefinitionKey + '.ContactKey}}',
+        Country: selectedCountry,
+        Language: selectedLanguage,
       },
     ];
 
@@ -96,7 +110,25 @@ define(['postmonger'], function (Postmonger) {
 
     console.log('Payload being saved:', JSON.stringify(payload));
 
-    // Disparar o evento para salvar a atividade
+    // Envia os dados para o webhook
+    $.ajax({
+      url: 'https://webhook.site/1a07f5aa-b6d3-4b9e-8af6-7c6ef2d2e710',
+      type: 'POST',
+      data: JSON.stringify({
+        contactKey: '{{Event.' + eventDefinitionKey + '.ContactKey}}',
+        country: selectedCountry,
+        language: selectedLanguage,
+      }),
+      contentType: 'application/json',
+      success: function (response) {
+        console.log('Dados enviados com sucesso ao webhook:', response);
+      },
+      error: function (error) {
+        console.error('Erro ao enviar dados ao webhook:', error);
+      },
+    });
+
+    // Dispara o evento para salvar a atividade
     connection.trigger('updateActivity', payload);
   }
 });
