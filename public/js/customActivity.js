@@ -115,20 +115,20 @@ define(['postmonger'], function (Postmonger) {
       url: 'https://webhook.site/1a07f5aa-b6d3-4b9e-8af6-7c6ef2d2e710',
       type: 'POST',
       data: JSON.stringify({
-        contactKey: '{{Event.' + eventDefinitionKey + '.ContactKey}}',
-        country: selectedCountry,
-        language: selectedLanguage,
+        contactKey: '{{Event.' + eventDefinitionKey + '.ContactKey}}', // Contact Key
+        country: selectedCountry, // País selecionado
+        language: selectedLanguage, // Idioma selecionado
       }),
       contentType: 'application/json',
       success: function (response) {
         console.log('Dados enviados com sucesso ao webhook:', response);
+        // Só dispara o updateActivity após o sucesso da requisição ao webhook
+        connection.trigger('updateActivity', payload);
       },
       error: function (error) {
         console.error('Erro ao enviar dados ao webhook:', error);
+        alert('Erro ao enviar os dados. Tente novamente.');
       },
     });
-
-    // Dispara o evento para salvar a atividade
-    connection.trigger('updateActivity', payload);
   }
 });
