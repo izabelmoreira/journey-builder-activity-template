@@ -11,8 +11,12 @@ define(['postmonger'], function (Postmonger) {
   connection.on('requestedTokens', onGetTokens);
   connection.on('requestedEndpoints', onGetEndpoints);
   connection.on('requestedInteraction', function (settings) {
-    eventDefinitionKey = settings.triggers[0].metaData.eventDefinitionKey;
-    console.log('Initializing data: ' + JSON.stringify(eventDefinitionKey));
+    if (settings.triggers && settings.triggers.length > 0) {
+      eventDefinitionKey = settings.triggers[0].metaData.eventDefinitionKey;
+      console.log('Initializing data: ' + JSON.stringify(eventDefinitionKey));
+    } else {
+      console.error('No triggers found in the settings.');
+    }
   });
   connection.on(
     'requestedTriggerEventDefinition',
@@ -59,8 +63,9 @@ define(['postmonger'], function (Postmonger) {
 
     console.log(inArguments);
 
+    // Iteração sobre inArguments, se necessário
     $.each(inArguments, function (index, inArgument) {
-      $.each(inArgument, function () {});
+      // Se precisar processar inArgument, faça isso aqui
     });
 
     connection.trigger('updateButton', {
@@ -79,7 +84,6 @@ define(['postmonger'], function (Postmonger) {
     console.log(endpoints);
   }
 
-  // Função para salvar a atividade com os dados corretos
   function save() {
     console.log(
       'Saving activity with Event Definition Key: ' + eventDefinitionKey

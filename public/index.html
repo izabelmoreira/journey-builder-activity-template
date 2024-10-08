@@ -4,6 +4,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Custom Practice</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/css/bootstrap.min.css"
+      integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu"
+      crossorigin="anonymous"
+    />
     <script type="text/javascript" src="js/jquery.min.js"></script>
     <script type="text/javascript" src="js/require.js"></script>
     <script type="text/javascript" src="js/postmonger.js"></script>
@@ -20,14 +26,15 @@
 
   <body>
     <header>
-      <nav
-        class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3"
-      >
-        <div class="container">
-          <p class="navbar-brand">This is a test</p>
+      <nav class="navbar navbar-default">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" href="#">This is a test</a>
+          </div>
         </div>
       </nav>
     </header>
+
     <div class="container">
       <div class="form-group">
         <label class="control-label" for="org_type">Select the ORG:</label>
@@ -36,7 +43,7 @@
           data-val="true"
           id="org_type"
           name="org_type"
-          aria-placeholder="Select Task"
+          aria-label="Select Org"
         >
           <option value=""></option>
           <option value="OrgID1">ORG ID 1</option>
@@ -59,9 +66,9 @@
       <br />
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="footer">
       <div class="container">
-        <p>Footer content here</p>
+        <p class="text-muted">Footer content here</p>
       </div>
     </footer>
   </body>
