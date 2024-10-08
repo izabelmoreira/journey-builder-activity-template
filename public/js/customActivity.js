@@ -73,6 +73,8 @@ define(['postmonger'], function (Postmonger) {
       text: 'done',
       visible: true,
     });
+
+    connection.trigger('ready');
   }
 
   function onGetTokens(tokens) {
