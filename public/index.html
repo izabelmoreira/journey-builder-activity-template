@@ -1,57 +1,40 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
-<head>
+  <head>
+    <title></title>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Relay Network</title>
-    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.min.css" />
-    <script type="text/javascript" src="js/jquery.min.js"></script>
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="stylesheet"
+      href="vendor/salesforce-lightning-design-system/styles/salesforce-lightning-design-system.css"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+    <script
+      type="text/javascript"
+      src="//code.jquery.com/git/jquery-git.min.js"
+    ></script>
     <script type="text/javascript" src="js/require.js"></script>
-    <script type="text/javascript" src="js/postmonger.js"></script>
-
-
-
     <script type="text/javascript">
-        (function () {
-            var config = {baseUrl: 'js'};
-            var dependencies = ['customActivity'];
+      (function () {
+        var config = {
+          baseUrl: 'js',
+        };
 
-            require(config, dependencies);
-        })();
+        var dependencies = ['customActivity'];
+
+        require(config, dependencies);
+      })();
     </script>
-</head>
+  </head>
 
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <p class="navbar-brand">This is a test</p>
-            </div>
-        </nav>
-    </header>
-    <div class="container" >
-        <div class="form-group">
-            <label class="control-label" for="task_type">Activity</label>
-            <select class="form-control active" data-val="true" id="task_type" name="task_type" aria-placeholder="Select Task" >
-                <option value="" ></option>
-                <option value="CustomerOnboarding">Onboard</option>
-                <option value="TriggerExperience">Message</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label class="control-label" for="journey_id">Experience</label>
-            <select class="form-control active" data-val="true" id="journey_id" name="journey_id">
-                <option value="" ></option>
-            </select>
-        </div>
-        <div id="inputs">
-        </div>
-        <br/>
+  <body>
+    <div id="step1" class="step">
+      <div class="slds-grid">
+        <main class="slds-col slds-size--1-of-3 slds-p-horizontal--small">
+          <h1>Isso é um teste</h1>
+        </main>
+      </div>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - Relay
-    </footer>
-</body>
+  </body>
 </html>
