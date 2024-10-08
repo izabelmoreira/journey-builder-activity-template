@@ -1,6 +1,6 @@
 'use strict';
-// Dependências de Módulos
-// -----------------------
+// Module Dependencies
+// -------------------
 var express = require('express');
 var bodyParser = require('body-parser');
 var errorhandler = require('errorhandler');
@@ -8,38 +8,36 @@ var http = require('http');
 var path = require('path');
 var request = require('request');
 var routes = require('./routes');
-var activity = require('./public/js/activity');
+var activity = require('./routes/activity');
 
 var app = express();
 
-// Configuração do Express
+// Configure Express
 app.set('port', process.env.PORT || 3000);
-app.use(bodyParser.raw({ type: 'application/jwt' })); // Define o parser para JWT
-// app.use(bodyParser.urlencoded({ extended: true })); // Se necessário, ativar para outros tipos de dados
+app.use(bodyParser.raw({ type: 'application/jwt' }));
+//app.use(bodyParser.urlencoded({ extended: true }));
 
-// app.use(express.methodOverride()); // Não necessário, removido para limpeza
-// app.use(express.favicon()); // Não necessário, removido para limpeza
+//app.use(express.methodOverride());
+//app.use(express.favicon());
 
-// Serve arquivos estáticos da pasta 'public'
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Configuração do Express no modo de desenvolvimento
-if (app.get('env') === 'development') {
-  app.use(errorhandler()); // Usa o middleware de tratamento de erros no modo dev
+// Express in Development Mode
+if ('development' == app.get('env')) {
+  app.use(errorhandler());
 }
 
-// Rotas HubExchange
-app.get('/', routes.index); // Rota principal
-app.post('/login', routes.login); // Rota de login
-app.post('/logout', routes.logout); // Rota de logout
+// HubExchange Routes
+app.get('/', routes.index);
+app.post('/login', routes.login);
+app.post('/logout', routes.logout);
 
-// Rotas da Atividade Customizada "Hello World"
-app.post('/journeybuilder/save/', activity.save); // Salvar a atividade
-app.post('/journeybuilder/validate/', activity.validate); // Validar a atividade
-app.post('/journeybuilder/publish/', activity.publish); // Publicar a atividade
-app.post('/journeybuilder/execute/', activity.execute); // Executar a atividade
+// Custom Hello World Activity Routes
+app.post('/journeybuilder/save/', activity.save);
+app.post('/journeybuilder/validate/', activity.validate);
+app.post('/journeybuilder/publish/', activity.publish);
+app.post('/journeybuilder/execute/', activity.execute);
 
-// Cria o servidor HTTP e começa a escutar na porta configurada
 http.createServer(app).listen(app.get('port'), function () {
-  console.log('Servidor Express ouvindo na porta ' + app.get('port'));
+  console.log('Express server listening on port ' + app.get('port'));
 });

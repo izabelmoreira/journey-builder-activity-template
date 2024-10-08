@@ -35,11 +35,6 @@ define(['postmonger'], function (Postmonger) {
     console.log(dataSources);
   }
 
-  function onRequestedInteraction(interaction) {
-    console.log('*** requestedInteraction ***');
-    console.log(interaction);
-  }
-
   function onRequestedTriggerEventDefinition(eventDefinitionModel) {
     console.log('*** requestedTriggerEventDefinition ***');
     console.log(eventDefinitionModel);
@@ -65,7 +60,7 @@ define(['postmonger'], function (Postmonger) {
     console.log(inArguments);
 
     $.each(inArguments, function (index, inArgument) {
-      $.each(inArgument, function (key, val) {});
+      $.each(inArgument, function () {});
     });
 
     connection.trigger('updateButton', {
