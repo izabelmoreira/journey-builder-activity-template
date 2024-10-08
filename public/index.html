@@ -45,9 +45,9 @@
           aria-label="Select Country"
         >
           <option value=""></option>
-          <option value="Brazil">Brazil</option>
+          <option value="BR">Brazil</option>
           <option value="US">US</option>
-          <option value="Spain">Spain</option>
+          <option value="ES">Spain</option>
         </select>
       </div>
       <div class="form-group">
@@ -58,7 +58,30 @@
       </div>
       <br />
     </div>
+    <script>
+      $(document).ready(function () {
+        $('#countrySelect').change(function () {
+          var countryCode = $(this).val();
+          $('#languageSelect')
+            .empty()
+            .append('<option value="">-- Selecione um Idioma --</option>');
 
+          if (countryCode) {
+            $.get(
+              `https://restcountries.com/v3.1/alpha/${countryCode}`,
+              function (data) {
+                var languages = data[0].languages;
+                for (var lang in languages) {
+                  $('#languageSelect').append(
+                    `<option value="${lang}">${languages[lang]}</option>`
+                  );
+                }
+              }
+            );
+          }
+        });
+      });
+    </script>
     <footer class="footer">
       <div class="container">
         <!-- Footer content here -->
