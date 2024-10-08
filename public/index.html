@@ -58,11 +58,12 @@
       </div>
       <br />
     </div>
+
     <script>
       $(document).ready(function () {
-        $('#countrySelect').change(function () {
+        $('#country').change(function () {
           var countryCode = $(this).val();
-          $('#languageSelect')
+          $('#language')
             .empty()
             .append('<option value="">-- Selecione um Idioma --</option>');
 
@@ -72,16 +73,19 @@
               function (data) {
                 var languages = data[0].languages;
                 for (var lang in languages) {
-                  $('#languageSelect').append(
+                  $('#language').append(
                     `<option value="${lang}">${languages[lang]}</option>`
                   );
                 }
               }
-            );
+            ).fail(function () {
+              alert('Erro ao buscar idiomas. Tente novamente mais tarde.');
+            });
           }
         });
       });
     </script>
+
     <footer class="footer">
       <div class="container">
         <!-- Footer content here -->
