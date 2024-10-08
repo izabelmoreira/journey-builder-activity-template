@@ -5,7 +5,7 @@ define(['postmonger'], function (Postmonger) {
   var eventDefinitionKey;
   var authTokens = {};
   var payload = {};
-  var contactKey = '';
+  var contactKey = ''; // Variável para armazenar o ContactKey
 
   $(window).ready(onRender);
 
@@ -62,7 +62,10 @@ define(['postmonger'], function (Postmonger) {
     console.log(inArguments);
 
     $.each(inArguments, function (index, inArgument) {
-      $.each(inArgument, function () {});
+      // Captura o ContactKey
+      if (inArgument.ContactKey) {
+        contactKey = inArgument.ContactKey;
+      }
     });
 
     connection.trigger('updateButton', {
@@ -97,10 +100,15 @@ define(['postmonger'], function (Postmonger) {
       return;
     }
 
+    // Verifica se o ContactKey foi capturado
+    if (!contactKey) {
+      contactKey = '{{Event.' + eventDefinitionKey + '.ContactKey}}';
+    }
+
     // Atualiza o payload com o ContactKey e os valores de país e idioma
     payload['arguments'].execute.inArguments = [
       {
-        ContactKey: '{{Event.' + eventDefinitionKey + '.ContactKey}}',
+        ContactKey: contactKey,
         Country: selectedCountry,
         Language: selectedLanguage,
       },
@@ -115,7 +123,7 @@ define(['postmonger'], function (Postmonger) {
       url: 'https://webhook.site/1a07f5aa-b6d3-4b9e-8af6-7c6ef2d2e710',
       type: 'POST',
       data: JSON.stringify({
-        contactKey: '{{Event.' + eventDefinitionKey + '.ContactKey}}', // Contact Key
+        contactKey: contactKey, // Contact Key
         country: selectedCountry, // País selecionado
         language: selectedLanguage, // Idioma selecionado
       }),
@@ -127,7 +135,16 @@ define(['postmonger'], function (Postmonger) {
       },
       error: function (error) {
         console.error('Erro ao enviar dados ao webhook:', error);
-        alert('Erro ao enviar os dados. Tente novamente.');
+
+        // Detalha o erro retornado para diagnóstico
+        alert(
+          'Erro ao enviar os dados ao webhook: ' +
+            error.statusText +
+            ' (' +
+            error.status +
+            ')'
+        );
+        console.log('Detalhes do erro:', error.responseText);
       },
     });
   }
