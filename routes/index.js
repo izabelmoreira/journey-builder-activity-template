@@ -1,12 +1,12 @@
 'use strict';
 
 // Deps
-var activity = require('./activity');
+import { logExecuteData } from './activity';
 
 /*
  * GET home page.
  */
-exports.index = function (req, res) {
+export function index(req, res) {
   if (!req.session.token) {
     res.render('index', {
       title: 'Unauthenticated',
@@ -16,17 +16,17 @@ exports.index = function (req, res) {
   } else {
     res.render('index', {
       title: 'Journey Builder Activity',
-      results: activity.logExecuteData || [], // Garante que results sempre tenha um valor
+      results: logExecuteData || [], // Garante que results sempre tenha um valor
     });
   }
-};
+}
 
-exports.login = function (req, res) {
+export function login(req, res) {
   console.log('req.body: ', req.body);
   res.redirect('/'); // Redireciona para a página inicial
-};
+}
 
-exports.logout = function (req, res) {
+export function logout(req, res) {
   req.session.token = ''; // Limpa o token
   res.redirect('/login'); // Redireciona para a página de login
-};
+}

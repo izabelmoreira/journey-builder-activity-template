@@ -1,11 +1,8 @@
 'use strict';
-var util = require('util');
-
-// Dependências
 const Path = require('path');
 const JWT = require(Path.join(__dirname, '..', 'lib', 'jwtDecoder.js'));
-var util = require('util');
-var http = require('https');
+const util = require('util');
+const http = require('https');
 
 exports.logExecuteData = [];
 
@@ -14,36 +11,28 @@ function logData(req) {
   exports.logExecuteData.push({
     body: req.body,
     headers: req.headers,
-    trailers: req.trailers,
     method: req.method,
     url: req.url,
     params: req.params,
     query: req.query,
-    route: req.route,
     cookies: req.cookies,
     ip: req.ip,
     path: req.path,
     host: req.host,
-    fresh: req.fresh,
-    stale: req.stale,
     protocol: req.protocol,
     secure: req.secure,
     originalUrl: req.originalUrl,
   });
   console.log('Corpo: ' + util.inspect(req.body));
   console.log('Cabeçalhos: ' + req.headers);
-  console.log('Trailers: ' + req.trailers);
   console.log('Método: ' + req.method);
   console.log('URL: ' + req.url);
   console.log('Parâmetros: ' + util.inspect(req.params));
   console.log('Query: ' + util.inspect(req.query));
-  console.log('Rota: ' + req.route);
   console.log('Cookies: ' + req.cookies);
   console.log('IP: ' + req.ip);
   console.log('Caminho: ' + req.path);
   console.log('Host: ' + req.host);
-  console.log('Fresco: ' + req.fresh);
-  console.log('Obsoleto: ' + req.stale);
   console.log('Protocolo: ' + req.protocol);
   console.log('Seguro: ' + req.secure);
   console.log('URL Original: ' + req.originalUrl);
@@ -54,7 +43,7 @@ function logData(req) {
  */
 exports.edit = function (req, res) {
   logData(req);
-  res.status(200).send('Edit');
+  res.status(200).json({ status: 'success', message: 'Edit' });
 };
 
 /*
@@ -62,7 +51,7 @@ exports.edit = function (req, res) {
  */
 exports.save = function (req, res) {
   logData(req);
-  res.status(200).send('Save');
+  res.status(200).json({ status: 'success', message: 'Save' });
 };
 
 /*
@@ -75,18 +64,21 @@ exports.execute = function (req, res) {
     // Verificação de erro -> requisição não autorizada
     if (err) {
       console.error(err);
-      return res.status(401).end();
+      return res.status(401).send('Erro na autenticação JWT');
     }
 
     // Verifica se os argumentos decodificados são válidos
-    if (decoded && decoded.inArguments && decoded.inArguments.length > 0) {
-      var decodedArgs = decoded.inArguments[0];
-
+    if (
+      decoded &&
+      Array.isArray(decoded.inArguments) &&
+      decoded.inArguments.length > 0
+    ) {
+      const decodedArgs = decoded.inArguments[0];
       console.log('Requisição: ', decodedArgs);
-      res.status(200).send('Execute');
+      res.status(200).json({ status: 'success', message: 'Execute' });
     } else {
       console.error('inArguments inválidos.');
-      return res.status(400).end();
+      return res.status(400).send('inArguments inválidos');
     }
   });
 };
@@ -97,7 +89,7 @@ exports.execute = function (req, res) {
  */
 exports.publish = function (req, res) {
   logData(req);
-  res.status(200).send('Publish');
+  res.status(200).json({ status: 'success', message: 'Publish' });
 };
 
 /*
@@ -106,5 +98,5 @@ exports.publish = function (req, res) {
  */
 exports.validate = function (req, res) {
   logData(req);
-  res.status(200).send('Validate');
+  res.status(200).json({ status: 'success', message: 'Validate' });
 };

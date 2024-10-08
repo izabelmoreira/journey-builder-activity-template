@@ -11,8 +11,12 @@ define(['postmonger'], function (Postmonger) {
   connection.on('requestedTokens', onGetTokens);
   connection.on('requestedEndpoints', onGetEndpoints);
   connection.on('requestedInteraction', function (settings) {
-    eventDefinitionKey = settings.triggers[0].metaData.eventDefinitionKey;
-    console.log('Initializing data: ' + JSON.stringify(eventDefinitionKey));
+    if (settings.triggers && settings.triggers.length > 0) {
+      eventDefinitionKey = settings.triggers[0].metaData.eventDefinitionKey;
+      console.log('Initializing data: ' + JSON.stringify(eventDefinitionKey));
+    } else {
+      console.error('Triggers não definidos ou vazios!');
+    }
   });
   connection.on(
     'requestedTriggerEventDefinition',
@@ -47,14 +51,11 @@ define(['postmonger'], function (Postmonger) {
     }
 
     var hasInArguments = Boolean(
-      payload['arguments'] &&
-        payload['arguments'].execute &&
-        payload['arguments'].execute.inArguments &&
-        payload['arguments'].execute.inArguments.length > 0
+      payload?.arguments?.execute?.inArguments?.length > 0
     );
 
     var inArguments = hasInArguments
-      ? payload['arguments'].execute.inArguments
+      ? payload.arguments.execute.inArguments
       : {};
 
     console.log(inArguments);
@@ -85,18 +86,22 @@ define(['postmonger'], function (Postmonger) {
       'Saving activity with Event Definition Key: ' + eventDefinitionKey
     );
 
-    // Atualizando o payload com os argumentos necessários para a execução
-    payload['arguments'].execute.inArguments = [
-      {
-        ContactKey: '{{Event.' + eventDefinitionKey + '.ContactKey}}',
-      },
-    ];
+    if (eventDefinitionKey) {
+      // Atualizando o payload com os argumentos necessários para a execução
+      payload['arguments'].execute.inArguments = [
+        {
+          ContactKey: '{{Event.' + eventDefinitionKey + '.ContactKey}}',
+        },
+      ];
 
-    payload['metaData'].isConfigured = true; // Define que a atividade foi configurada
+      payload['metaData'].isConfigured = true; // Define que a atividade foi configurada
 
-    console.log('Payload being saved:', JSON.stringify(payload));
+      console.log('Payload being saved:', JSON.stringify(payload));
 
-    // Disparar o evento para salvar a atividade
-    connection.trigger('updateActivity', payload);
+      // Disparar o evento para salvar a atividade
+      connection.trigger('updateActivity', payload);
+    } else {
+      console.error('Event Definition Key não está definido!');
+    }
   }
 });
