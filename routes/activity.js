@@ -1,7 +1,7 @@
 'use strict';
 var util = require('util');
 
-// Dependências
+// Dependencies
 const Path = require('path');
 const JWT = require(Path.join(__dirname, '..', 'lib', 'jwtDecoder.js'));
 var util = require('util');
@@ -9,7 +9,7 @@ var http = require('https');
 
 exports.logExecuteData = [];
 
-// Função para registrar os dados da requisição
+// Function to log the request data
 function logData(req) {
   exports.logExecuteData.push({
     body: req.body,
@@ -30,27 +30,27 @@ function logData(req) {
     secure: req.secure,
     originalUrl: req.originalUrl,
   });
-  console.log('Corpo: ' + util.inspect(req.body));
-  console.log('Cabeçalhos: ' + req.headers);
+  console.log('Body: ' + util.inspect(req.body));
+  console.log('Headers: ' + req.headers);
   console.log('Trailers: ' + req.trailers);
-  console.log('Método: ' + req.method);
+  console.log('Method: ' + req.method);
   console.log('URL: ' + req.url);
-  console.log('Parâmetros: ' + util.inspect(req.params));
+  console.log('Parameters: ' + util.inspect(req.params));
   console.log('Query: ' + util.inspect(req.query));
-  console.log('Rota: ' + req.route);
+  console.log('Route: ' + req.route);
   console.log('Cookies: ' + req.cookies);
   console.log('IP: ' + req.ip);
-  console.log('Caminho: ' + req.path);
+  console.log('Path: ' + req.path);
   console.log('Host: ' + req.host);
-  console.log('Fresco: ' + req.fresh);
-  console.log('Obsoleto: ' + req.stale);
-  console.log('Protocolo: ' + req.protocol);
-  console.log('Seguro: ' + req.secure);
-  console.log('URL Original: ' + req.originalUrl);
+  console.log('Fresh: ' + req.fresh);
+  console.log('Stale: ' + req.stale);
+  console.log('Protocol: ' + req.protocol);
+  console.log('Secure: ' + req.secure);
+  console.log('Original URL: ' + req.originalUrl);
 }
 
 /*
- * Handler POST para a rota / da Atividade (esta é a rota de edição).
+ * POST handler for the / route of the Activity (this is the edit route).
  */
 exports.edit = function (req, res) {
   logData(req);
@@ -58,7 +58,7 @@ exports.edit = function (req, res) {
 };
 
 /*
- * Handler POST para a rota /save/ da Atividade.
+ * POST handler for the /save/ route of the Activity.
  */
 exports.save = function (req, res) {
   logData(req);
@@ -66,34 +66,34 @@ exports.save = function (req, res) {
 };
 
 /*
- * Handler POST para a rota /execute/ da Atividade.
- * Aqui, o JWT é decodificado e as ações são realizadas com base nos argumentos.
+ * POST handler for the /execute/ route of the Activity.
+ * Here, the JWT is decoded and actions are taken based on the arguments.
  */
 exports.execute = function (req, res) {
-  // Exemplo de como decodificar o JWT
+  // Example of how to decode the JWT
   JWT(req.body, process.env.jwtSecret, (err, decoded) => {
-    // Verificação de erro -> requisição não autorizada
+    // Error check -> unauthorized request
     if (err) {
       console.error(err);
       return res.status(401).end();
     }
 
-    // Verifica se os argumentos decodificados são válidos
+    // Check if the decoded arguments are valid
     if (decoded && decoded.inArguments && decoded.inArguments.length > 0) {
       var decodedArgs = decoded.inArguments[0];
 
-      console.log('Requisição: ', decodedArgs);
+      console.log('Request: ', decodedArgs);
       res.status(200).send('Execute');
     } else {
-      console.error('inArguments inválidos.');
+      console.error('Invalid inArguments.');
       return res.status(400).end();
     }
   });
 };
 
 /*
- * Handler POST para a rota /publish/ da Atividade.
- * Esta função é chamada quando a atividade é publicada.
+ * POST handler for the /publish/ route of the Activity.
+ * This function is called when the activity is published.
  */
 exports.publish = function (req, res) {
   logData(req);
@@ -101,8 +101,8 @@ exports.publish = function (req, res) {
 };
 
 /*
- * Handler POST para a rota /validate/ da Atividade.
- * Esta função é chamada para validar os dados da atividade.
+ * POST handler for the /validate/ route of the Activity.
+ * This function is called to validate the activity data.
  */
 exports.validate = function (req, res) {
   logData(req);

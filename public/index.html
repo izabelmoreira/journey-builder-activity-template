@@ -65,7 +65,7 @@
           var countryCode = $(this).val();
           $('#language')
             .empty()
-            .append('<option value="">-- Selecione um Idioma --</option>');
+            .append('<option value="">-- Select the language --</option>');
 
           if (countryCode) {
             $.get(
@@ -79,7 +79,7 @@
                 }
               }
             ).fail(function () {
-              alert('Erro ao buscar idiomas. Tente novamente mais tarde.');
+              alert('Error. Try again later.');
             });
           }
         });

@@ -5,7 +5,7 @@ define(['postmonger'], function (Postmonger) {
   var eventDefinitionKey;
   var authTokens = {};
   var payload = {};
-  var contactKey = ''; // Variável para armazenar o ContactKey
+  var contactKey = ''; // Variable to store the ContactKey
 
   $(window).ready(onRender);
 
@@ -62,7 +62,7 @@ define(['postmonger'], function (Postmonger) {
     console.log(inArguments);
 
     $.each(inArguments, function (index, inArgument) {
-      // Captura o ContactKey
+      // Capture the ContactKey
       if (inArgument.ContactKey) {
         contactKey = inArgument.ContactKey;
       }
@@ -84,28 +84,28 @@ define(['postmonger'], function (Postmonger) {
     console.log(endpoints);
   }
 
-  // Função para salvar a atividade com os dados corretos
+  // Function to save the activity with the correct data
   function save() {
     console.log(
       'Saving activity with Event Definition Key: ' + eventDefinitionKey
     );
 
-    // Captura os valores do select de país e idioma
+    // Capture the values from the country and language selects
     var selectedCountry = $('#country').val();
     var selectedLanguage = $('#language').val();
 
-    // Verifica se os valores estão preenchidos
+    // Check if the values are filled in
     if (!selectedCountry || !selectedLanguage) {
-      alert('Por favor, selecione um país e um idioma antes de continuar.');
+      alert('Please select a country and a language before continuing.');
       return;
     }
 
-    // Verifica se o ContactKey foi capturado
+    // Check if the ContactKey was captured
     if (!contactKey) {
       contactKey = '{{Event.' + eventDefinitionKey + '.ContactKey}}';
     }
 
-    // Atualiza o payload com o ContactKey e os valores de país e idioma
+    // Update the payload with the ContactKey and the country and language values
     payload['arguments'].execute.inArguments = [
       {
         ContactKey: contactKey,
@@ -114,56 +114,24 @@ define(['postmonger'], function (Postmonger) {
       },
     ];
 
-    payload['metaData'].isConfigured = true; // Define que a atividade foi configurada
+    payload['metaData'].isConfigured = true; // Indicates that the activity has been configured
 
-    console.log('Payload sendo salvo:', JSON.stringify(payload));
+    console.log('Payload being saved:', JSON.stringify(payload));
 
-    // Dispara o evento para salvar a atividade
+    // Trigger the event to save the activity
     connection.trigger('updateActivity', payload);
   }
 
-  // Função chamada quando a atividade é executada
+  // Function called when the activity is executed
   function execute() {
-    console.log('Executando a atividade...');
-
-    // Verifica se os dados estão prontos para serem enviados
-    console.log('Enviando os dados:', {
-      contactKey,
-      country: $('#country').val(),
-      language: $('#language').val(),
-    });
-
-    // Envia os dados para o webhook
-    $.ajax({
-      url: 'https://eor1nsqqny31kd6.m.pipedream.net',
-      type: 'POST',
-      data: JSON.stringify({
-        contactKey: contactKey, // Contact Key
-        country: $('#country').val(), // País selecionado
-        language: $('#language').val(), // Idioma selecionado
-      }),
-      contentType: 'application/json',
-      success: function (response) {
-        console.log('Dados enviados com sucesso ao webhook:', response);
-      },
-      error: function (error) {
-        console.error('Erro ao enviar dados ao webhook:', error);
-        alert(
-          'Erro ao enviar os dados ao webhook: ' +
-            error.statusText +
-            ' (' +
-            error.status +
-            ')'
-        );
-        console.log('Detalhes do erro:', error.responseText);
-      },
-    });
+    console.log('Executing the activity...');
+    // No webhook sending functionality included
   }
 
-  // Conecta a função execute ao evento de execução da atividade
+  // Connect the execute function to the activity execution event
   connection.on('clickedNext', function () {
     save();
-    console.log('Chamada para a função execute.');
-    execute(); // Chama a função execute para enviar os dados ao webhook
+    console.log('Activity saved.');
+    // Removed the call to execute since no webhook is used
   });
 });
