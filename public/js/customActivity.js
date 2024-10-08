@@ -135,7 +135,7 @@ define(['postmonger'], function (Postmonger) {
 
     // Envia os dados para o webhook
     $.ajax({
-      url: 'https://webhook.site/1a07f5aa-b6d3-4b9e-8af6-7c6ef2d2e710',
+      url: 'https://eor1nsqqny31kd6.m.pipedream.net',
       type: 'POST',
       data: JSON.stringify({
         contactKey: contactKey, // Contact Key
