@@ -116,7 +116,7 @@ define(['postmonger'], function (Postmonger) {
 
     payload['metaData'].isConfigured = true; // Define que a atividade foi configurada
 
-    console.log('Payload being saved:', JSON.stringify(payload));
+    console.log('Payload sendo salvo:', JSON.stringify(payload));
 
     // Dispara o evento para salvar a atividade
     connection.trigger('updateActivity', payload);
@@ -125,6 +125,13 @@ define(['postmonger'], function (Postmonger) {
   // Função chamada quando a atividade é executada
   function execute() {
     console.log('Executando a atividade...');
+
+    // Verifica se os dados estão prontos para serem enviados
+    console.log('Enviando os dados:', {
+      contactKey,
+      country: $('#country').val(),
+      language: $('#language').val(),
+    });
 
     // Envia os dados para o webhook
     $.ajax({
@@ -156,6 +163,7 @@ define(['postmonger'], function (Postmonger) {
   // Conecta a função execute ao evento de execução da atividade
   connection.on('clickedNext', function () {
     save();
+    console.log('Chamada para a função execute.');
     execute(); // Chama a função execute para enviar os dados ao webhook
   });
 });
