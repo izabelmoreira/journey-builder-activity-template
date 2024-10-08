@@ -118,25 +118,29 @@ define(['postmonger'], function (Postmonger) {
 
     console.log('Payload being saved:', JSON.stringify(payload));
 
+    // Dispara o evento para salvar a atividade
+    connection.trigger('updateActivity', payload);
+  }
+
+  // Função chamada quando a atividade é executada
+  function execute() {
+    console.log('Executando a atividade...');
+
     // Envia os dados para o webhook
     $.ajax({
       url: 'https://webhook.site/1a07f5aa-b6d3-4b9e-8af6-7c6ef2d2e710',
       type: 'POST',
       data: JSON.stringify({
         contactKey: contactKey, // Contact Key
-        country: selectedCountry, // País selecionado
-        language: selectedLanguage, // Idioma selecionado
+        country: $('#country').val(), // País selecionado
+        language: $('#language').val(), // Idioma selecionado
       }),
       contentType: 'application/json',
       success: function (response) {
         console.log('Dados enviados com sucesso ao webhook:', response);
-        // Só dispara o updateActivity após o sucesso da requisição ao webhook
-        connection.trigger('updateActivity', payload);
       },
       error: function (error) {
         console.error('Erro ao enviar dados ao webhook:', error);
-
-        // Detalha o erro retornado para diagnóstico
         alert(
           'Erro ao enviar os dados ao webhook: ' +
             error.statusText +
@@ -148,4 +152,10 @@ define(['postmonger'], function (Postmonger) {
       },
     });
   }
+
+  // Conecta a função execute ao evento de execução da atividade
+  connection.on('clickedNext', function () {
+    save();
+    execute(); // Chama a função execute para enviar os dados ao webhook
+  });
 });
