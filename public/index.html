@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
   <head>
-    <title></title>
+    <title>Formulário de Teste</title>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -10,11 +10,17 @@
       href="vendor/salesforce-lightning-design-system/styles/salesforce-lightning-design-system.css"
     />
     <link rel="stylesheet" href="css/styles.css" />
+
+    <!-- Inclua a versão estável do jQuery -->
     <script
-      type="text/javascript"
-      src="//code.jquery.com/git/jquery-git.min.js"
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5+5hb7ie4U68B4O4N1yU8xAc2rTsuZ9kTF5VEVzB"
+      crossorigin="anonymous"
     ></script>
-    <script type="text/javascript" src="js/require.js"></script>
+
+    <!-- Inclua a versão estável do require.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+
     <script type="text/javascript">
       (function () {
         var config = {
@@ -33,15 +39,16 @@
       <div class="slds-grid">
         <main class="slds-col slds-size--1-of-3 slds-p-horizontal--small">
           <h1>Testando o form</h1>
-          <div class="container" >
+          <div class="container">
             <div class="form-group">
-                <label class="control-label" for="task_org">Selecione o ID</label>
-                <select class="form-control active" data-val="true" id="task_org" name="task_org" aria-placeholder="Select Org" >
-                    <option value="" ></option>
-                    <option value="ID1">ID 1</option>
-                    <option value="ID2">ID 2</option>
-                </select>
+              <label class="control-label" for="task_org">Selecione o ID</label>
+              <select class="form-control active" id="task_org" name="task_org">
+                <option value="">Selecione o ID</option>
+                <option value="ID1">ID 1</option>
+                <option value="ID2">ID 2</option>
+              </select>
             </div>
+          </div>
         </main>
       </div>
     </div>
