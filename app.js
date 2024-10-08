@@ -8,7 +8,7 @@ var http = require('http');
 var path = require('path');
 var request = require('request');
 var routes = require('./routes');
-var activity = require('./routes/activity');
+var activity = require('./public/js/activity');
 
 var app = express();
 
