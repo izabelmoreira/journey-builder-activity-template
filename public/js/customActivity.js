@@ -65,7 +65,10 @@ define(['postmonger'], function (Postmonger) {
     console.log(inArguments);
     console.log('___________________');
 
-    $('#MID').val(MID);
+    var setMID = MID
+      ? $('#MID').val(MID)
+      : $('#MID').val(payload['arguments'].execute.inArguments[0].MID);
+
     console.log('MID');
 
     $.each(inArguments, function (index, inArgument) {
