@@ -61,14 +61,16 @@ define(['postmonger'], function (Postmonger) {
     var inArguments = hasInArguments
       ? payload['arguments'].execute.inArguments
       : {};
-
+    console.log('___________________');
     console.log(inArguments);
+    console.log('___________________');
 
     $.each(inArguments, function (index, inArgument) {
       // Capture the ContactKey
       if (inArgument.ContactKey) {
         contactKey = inArgument.ContactKey;
       }
+      console.log('esse MID deve ser recuperado no frontend', inArgument.MID);
       if (inArgument.MID) {
         $('#MID').val(MID);
       }
