@@ -65,14 +65,13 @@ define(['postmonger'], function (Postmonger) {
     console.log(inArguments);
     console.log('___________________');
 
+    $('#MID').val(MID);
+    console.log('MID');
+
     $.each(inArguments, function (index, inArgument) {
       // Capture the ContactKey
       if (inArgument.ContactKey) {
         contactKey = inArgument.ContactKey;
-      }
-      console.log('esse MID deve ser recuperado no frontend', inArgument.MID);
-      if (inArgument.MID) {
-        $('#MID').val(MID);
       }
     });
 
