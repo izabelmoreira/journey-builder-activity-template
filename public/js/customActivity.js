@@ -10,7 +10,8 @@ define(['postmonger'], function (Postmonger) {
 
   $(window).ready(onRender);
 
-  connection.on('initActivity', initialize);
+  //Define events
+  connection.on('initActivity', initialize); // Connection function, doesn't need trigger
   connection.on('requestedTokens', onGetTokens);
   connection.on('requestedEndpoints', onGetEndpoints);
   connection.on('requestedInteraction', function (settings) {
@@ -24,6 +25,7 @@ define(['postmonger'], function (Postmonger) {
   connection.on('requestedDataSources', onRequestedDataSources);
   connection.on('clickedNext', save);
 
+  //Get the actions
   function onRender() {
     connection.trigger('ready');
     connection.trigger('requestTokens');
@@ -93,6 +95,7 @@ define(['postmonger'], function (Postmonger) {
     // Capture the values from the country and language selects
     var selectedCountry = $('#country').val();
     var selectedLanguage = $('#language').val();
+    var MID = $('#MID').val();
 
     // Check if the values are filled in
     if (!selectedCountry || !selectedLanguage) {
@@ -105,12 +108,13 @@ define(['postmonger'], function (Postmonger) {
       contactKey = '{{Event.' + eventDefinitionKey + '.ContactKey}}';
     }
 
-    // Update the payload with the ContactKey and the country and language values
+    // Update the payload with the ContactKey, MID and the country and language values
     payload['arguments'].execute.inArguments = [
       {
         ContactKey: contactKey,
         Country: selectedCountry,
         Language: selectedLanguage,
+        MID: MID,
       },
     ];
 
