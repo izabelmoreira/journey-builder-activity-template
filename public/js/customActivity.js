@@ -69,6 +69,9 @@ define(['postmonger'], function (Postmonger) {
       if (inArgument.ContactKey) {
         contactKey = inArgument.ContactKey;
       }
+      if (inArgument.MID) {
+        $('#MID').val(MID);
+      }
     });
 
     connection.trigger('updateButton', {
@@ -80,6 +83,7 @@ define(['postmonger'], function (Postmonger) {
 
   function onGetTokens(tokens) {
     console.log('This is my MID :', tokens.MID);
+    MID = tokens.MID;
   }
 
   function onGetEndpoints(endpoints) {
@@ -95,7 +99,6 @@ define(['postmonger'], function (Postmonger) {
     // Capture the values from the country and language selects
     var selectedCountry = $('#country').val();
     var selectedLanguage = $('#language').val();
-    var MID = $('#MID').val();
 
     // Check if the values are filled in
     if (!selectedCountry || !selectedLanguage) {
