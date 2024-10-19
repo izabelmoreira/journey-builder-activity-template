@@ -6,6 +6,7 @@ define(['postmonger'], function (Postmonger) {
   var authTokens = {};
   var payload = {};
   var contactKey = ''; // Variable to store the ContactKey
+  var MID; //Variable to store the MID
 
   $(window).ready(onRender);
 
@@ -76,8 +77,7 @@ define(['postmonger'], function (Postmonger) {
   }
 
   function onGetTokens(tokens) {
-    console.log(tokens);
-    authTokens = tokens;
+    console.log('This is my MID :', tokens.MID);
   }
 
   function onGetEndpoints(endpoints) {
